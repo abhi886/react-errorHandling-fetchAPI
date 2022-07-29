@@ -26,7 +26,6 @@ function ComponenOne() {
   } else {
     return (
       <div>
-        {errorMessage && <p>Show Error Boundary Component</p>}
         {!isLoading ? name && <p> Name:{name}</p> : <p>Show Loading Spinner</p>}
       </div>
     );
