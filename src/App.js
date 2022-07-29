@@ -1,9 +1,10 @@
-import './App.css';
+import "./App.css";
+import ComponenOne from "./ComponenOne";
 
 function App() {
   return (
-    <div className="App">
-      
+    <div className='App'>
+      <ComponenOne />
     </div>
   );
 }
