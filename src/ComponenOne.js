@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
 import fetchData from "./fetchData";
-const URL = "https://jsonplaceholder.typicode.com/users/1";
+const URL = "https://sjsonplaceholder.typicode.com/users/1";
 function ComponenOne() {
-  const [name, SetName] = useState(null);
-  const [isLoading, SetIsLoading] = useState(true);
-  const [errorMessage, SetErrorMessage] = useState(false);
-
+  const [apiResponse, SetApiResponse] = useState({ data: {} });
+  const [isLoading, SetIsLoading] = useState(false);
+  //   const [errorMessage, SetErrorMessage] = useState(false);
   const getData = async () => {
     try {
-      const res = await fetchData(URL, SetIsLoading, SetErrorMessage);
-      console.log(res);
-      if (res) {
-        SetName(res.name);
-      }
+      await fetchData(URL, SetApiResponse, SetIsLoading);
     } catch (ex) {
       console.error(ex);
     }
@@ -21,16 +16,31 @@ function ComponenOne() {
     getData();
   }, []);
 
-  if (errorMessage) {
-    return <p>Something Went Wrong</p>;
-  } else {
-    return (
-      <div>
-        {errorMessage && <p>Show Error Boundary Component</p>}
-        {!isLoading ? name && <p> Name:{name}</p> : <p>Show Loading Spinner</p>}
-      </div>
-    );
-  }
+  const {
+    data: { name, id },
+  } = apiResponse;
+
+  /* {errorMessage && <p>Show Error Boundary Component</p>} */
+  return (
+    <>
+      {!isLoading ? (
+        <div>
+          <p>Name:{name}</p>
+          <p>Id:{id}</p>
+        </div>
+      ) : (
+        <p>Loading Spinner</p>
+      )}
+    </>
+  );
+
+  //   if (isLoading) return <p>Loading Spinner</p>;
+  //   return (
+  //     <div>
+  //       <p>Name:{name}</p>
+  //       <p>Id:{id}</p>
+  //     </div>
+  //   );
 }
 
 export default ComponenOne;
