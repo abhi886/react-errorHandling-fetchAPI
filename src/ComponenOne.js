@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import fetchData from "./fetchData";
-const URL = "https://sjsonplaceholder.typicode.com/users/1";
+const URL = "https://jsonplaceholder.typicode.com/users/1";
 function ComponenOne() {
   const [apiResponse, SetApiResponse] = useState({ data: {} });
-  const [isLoading, SetIsLoading] = useState(false);
-  //   const [errorMessage, SetErrorMessage] = useState(false);
+  const [isLoading, SetIsLoading] = useState(true);
+  const [isError, SetIsError] = useState(false);
   const getData = async () => {
     try {
-      await fetchData(URL, SetApiResponse, SetIsLoading);
+      await fetchData(URL, SetApiResponse, SetIsLoading, SetIsError);
     } catch (ex) {
       console.error(ex);
     }
@@ -21,26 +21,15 @@ function ComponenOne() {
   } = apiResponse;
 
   /* {errorMessage && <p>Show Error Boundary Component</p>} */
-  return (
-    <>
-      {!isLoading ? (
-        <div>
-          <p>Name:{name}</p>
-          <p>Id:{id}</p>
-        </div>
-      ) : (
-        <p>Loading Spinner</p>
-      )}
-    </>
-  );
 
-  //   if (isLoading) return <p>Loading Spinner</p>;
-  //   return (
-  //     <div>
-  //       <p>Name:{name}</p>
-  //       <p>Id:{id}</p>
-  //     </div>
-  //   );
+  if (isLoading) return <p>Loading Spinner</p>;
+  if (isError) return <p>Error Component</p>;
+  return (
+    <div>
+      <p>Name:{name}</p>
+      <p>Id:{id}</p>
+    </div>
+  );
 }
 
 export default ComponenOne;
