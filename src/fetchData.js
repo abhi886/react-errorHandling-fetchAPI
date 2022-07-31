@@ -1,26 +1,22 @@
-const FetchData = async (url, SetApiResponse, setLoading) => {
+const FetchData = async (url, SetApiResponse, SetIsLoading, SetIsError) => {
   try {
-    setLoading(true);
     const response = await fetch(url, {
       credentials: "include",
     });
-    console.log(response);
     if (!response.ok) {
-      //   throw new Error(response);
-      console.error(response.error);
+      throw new Error(`${response.status}`);
     }
     const rawData = await response.json();
     const resData = { data: rawData };
-    console.log(resData);
+    SetIsLoading(false);
     SetApiResponse(resData);
-    setLoading(false);
-  } catch (error) {
-    // setError(true);
-    // setLoading(false);
-    // if (error.status === 404) {
-    //   console.log("Redirect to 404 page");
-    // }
-    console.error(error);
+  } catch (ex) {
+    SetIsError(true);
+    SetIsLoading(false);
+    if (ex.message === "404") {
+      console.log("Redirect to 404 page");
+    }
+    console.error(ex);
   }
 };
 
